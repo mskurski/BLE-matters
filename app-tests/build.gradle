@@ -1,0 +1,30 @@
+apply plugin: 'java'
+
+dependencies {
+
+    def androidModule = project(':app')
+    compile androidModule
+
+    testCompile androidModule.android.applicationVariants.toList().first().javaCompile.classpath
+    testCompile androidModule.android.applicationVariants.toList().first().javaCompile.outputs.files
+    testCompile files(androidModule.plugins.findPlugin("com.android.application").getBootClasspath())
+
+    testCompile 'org.robolectric:robolectric:2.+'
+    testCompile 'com.squareup:fest-android:1.0.+'
+    testCompile 'org.easytesting:fest-assert:1.+'
+    testCompile 'org.easytesting:fest-util:1.2.+'
+    testCompile 'com.googlecode.catch-exception:catch-exception:1.2.0'
+    testCompile 'pl.pragmatists:JUnitParams:1.0.3'
+    testCompile 'org.mockito:mockito-core:1.9.+'
+    testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.5.4'
+    testCompile 'org.powermock:powermock-module-junit4:1.5.6'
+    testCompile 'org.powermock:powermock-classloading-xstream:1.5.4'
+    testCompile 'org.powermock:powermock-api-mockito:1.5.4'
+    testCompile 'junit:junit:4.11'
+}
+
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Should.class"
+    include "**/*Test.class"
+    include "**/*Tests.class"}

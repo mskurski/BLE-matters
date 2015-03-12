@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+dependencies {
+    def androidModule = project(':library')
+    compile androidModule
+
+    testCompile androidModule.android.libraryVariants.toList().first().javaCompile.classpath
+    testCompile androidModule.android.libraryVariants.toList().first().javaCompile.outputs.files
+    testCompile files(androidModule.plugins.findPlugin('com.android.library').getBootClasspath())
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.robolectric:robolectric:2.+'
+    testCompile 'org.easytesting:fest-assert:1.+'
+    testCompile 'org.easytesting:fest-util:1.2.+'
+    testCompile 'org.mockito:mockito-core:1.9.+'
+    testCompile 'com.googlecode.catch-exception:catch-exception:1.2.0'
+    testCompile 'pl.pragmatists:JUnitParams:1.0.3'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.+'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.+'
+}
+
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Should.class"
+    include "**/*Test.class"
+    include "**/*Tests.class"
+}
