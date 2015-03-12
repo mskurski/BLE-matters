@@ -16,6 +16,8 @@ final class MutableBLEDevice implements BLEDevice {
 
     private final int hashCode;
 
+    private final String toString;
+
     private int rssi;
 
     /**
@@ -29,6 +31,7 @@ final class MutableBLEDevice implements BLEDevice {
         this.bluetoothDevice = bluetoothDevice;
         this.scanResponse = scanResponse;
         this.hashCode = hashCode;
+        this.toString = String.format("BLEDevice[%s, %s]", bluetoothDevice.getName(), bluetoothDevice.getAddress());
     }
 
     /**
@@ -87,6 +90,6 @@ final class MutableBLEDevice implements BLEDevice {
 
     @Override
     public String toString() {
-        return Joiner.on(" ").join("BLEDevice [", getName(), ", ", getAddress(), " ", "]");
+        return toString;
     }
 }
